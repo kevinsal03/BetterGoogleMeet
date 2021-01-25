@@ -19,21 +19,26 @@ for (var i = 0; i < elements.length; i++) {
 function startCountdown(messageElemement) {
     console.log(timeToRefresh)
     messageElemement.appendChild(document.createElement("br"))
-    var newElement = document.createElement("p")
-    newElement.setAttribute("id", "bgmCountdown")
-    newElement.style.cssText = "color: red; font-size: 25px;"
-    newElement.innerHTML = "This page will automatically refresh in " + timeToRefresh + " seconds!";
-    messageElemement.appendChild(newElement)
-    setTimeout(function() { doCountdown(newElement); }, 1000);
+    var bgmMessageElemement = createElement();
+    messageElemement.appendChild(bgmMessageElemement)
+    setTimeout(function() { doCountdown(bgmMessageElemement); }, 1000);
 }
 
 function doCountdown(bgmMessageElemement) {
     timeToRefresh--;
-    bgmMessageElemement.innerHTML = "This page will automatically refresh in " + timeToRefresh + " seconds!";
+    document.getElementById("bgmCountdown").replaceWith(createElement());
     if (timeToRefresh <= 0) {
         window.location = window.location;
     } else {
         setTimeout(function() { doCountdown(bgmMessageElemement); }, 1000);
     }
 
+}
+
+function createElement() {
+    var newElement = document.createElement("p")
+    newElement.setAttribute("id", "bgmCountdown")
+    newElement.style.cssText = "color: red; font-size: 25px;"
+    newElement.appendChild(document.createTextNode("This page will automatically refresh in " + timeToRefresh + " seconds"));
+    return newElement;
 }
